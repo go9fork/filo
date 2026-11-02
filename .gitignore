@@ -16,5 +16,6 @@ artifacts/
 
 # Local agent instructions must never enter public source or bundles
 AGENTS.md
+CLAUDE.md
 HARNESS.md
 REDLINES.md

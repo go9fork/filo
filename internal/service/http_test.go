@@ -284,14 +284,14 @@ func TestInfoAdvertisesIdentityAndCapabilities(t *testing.T) {
 		t.Fatalf("desktop status leaked: %v", plain)
 	}
 	worker := newTestServer(t, ServerOptions{Sessions: fake, Hostname: "host",
-		Identity: &ServiceIdentity{SessionMode: "standalone", Device: "tinybox"},
+		Identity: &ServiceIdentity{SessionMode: "standalone", Device: "sample-host"},
 		DesktopStatus: func() DesktopStatus {
 			message := "offline"
 			return DesktopStatus{State: "unavailable", Error: &message}
 		}})
 	var identity map[string]any
 	decode(t, get(t, worker.URL+"/v1/info", authHeaders()), &identity)
-	if identity["sessionMode"] != "standalone" || identity["device"] != "tinybox" {
+	if identity["sessionMode"] != "standalone" || identity["device"] != "sample-host" {
 		t.Fatalf("identity = %v", identity)
 	}
 	desktopState, ok := identity["desktop"].(map[string]any)
@@ -304,7 +304,7 @@ func TestWorkerLayerExcludesTurnsAndBoundsStatusLists(t *testing.T) {
 	fake := &statusSessions{fakeSessions: newFakeSessions(1)}
 	desktop := newTestServer(t, ServerOptions{Sessions: fake})
 	worker := newTestServer(t, ServerOptions{Sessions: fake,
-		Identity: &ServiceIdentity{SessionMode: "standalone", Device: "tinybox"}})
+		Identity: &ServiceIdentity{SessionMode: "standalone", Device: "sample-host"}})
 	session := "/v1/sessions/" + payloadSession
 
 	// The desktop layer ignores the worker-only parameter entirely.
