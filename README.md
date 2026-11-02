@@ -8,168 +8,95 @@ Filo runs independently of Codex. Stopping or removing Filo must leave ordinary
 Codex startup, existing tasks and accepted native generation unaffected. It does
 not patch Codex, change its normal startup configuration, or automate the desktop.
 
-## Supported integration
+## Supported clients
 
-The Windows installer discovers **Codex Desktop**, **Codex CLI**, **Claude Code**
-and **Claude Desktop**, lets you select clients under one Windows account, and
-installs their required Filo components automatically. New conversations are
-unavailable for both Codex CLI and Claude Code: their worker and gateway advertise
-`create:false` and reject creation before native allocation. Existing native and
-previously Filo-created sessions retain their admitted controls.
-Codex Desktop provides the task controls listed below and needs no separate
-Codex CLI installation.
-Filo-owned Codex CLI tasks support bounded native history, idle Send,
-native steering, exact-turn Stop and supported model, effort and tier settings.
-Normally launched Codex CLI terminals use the account's existing official shared
-daemon. Filo connects without starting or installing it; loaded-thread admission
-and scope checks do not rely on a wrapper.
-Claude Code controls Filo-created native sessions with idle Send, Stop, model and
-effort selection, rename and raw attachment input. Its bounded live projection
-includes partial assistant text, thinking, tool-use arguments and matched tool
-results; activity rows require an activity-enabled read. Filo-owned Codex CLI tasks
-also support rename, archive and raw attachments. Other original or unknown CLI
-sessions need independently verified native ownership. Claude Mod sessions expose
-bounded text, current model, request effort and exact-turn Stop. Mod configuration
-aliases are not exposed as selectable models; request effort remains available
-independently of a model catalog. Send/Insert uses explicitly non-exact
-submitted/observed confirmation; an unconfirmed input blocks resend and never
-replays. Session-local effort choices
-remain pending until a subsequent native engine request proves actual values.
-Claude Desktop covers **Code** only, with no Chat or Cowork support. Its embedded
-engine qualified registration, non-exact idle Send, running Insert with native
-user-note consumption, exact-turn Stop and subsequent native-request effort
-confirmation. Its live projection qualified streamed text, native tool arguments,
-results and states, active-user lifecycle evidence, and native title consistency.
-Accepted generation and native tool calls also continued through gateway and
-private-worker outages. Desktop Rename now shares the qualified permission-preserving
-native self-read/title-change/readback sequence; public session access requires a
-current registration and exact persisted host/engine mapping. Titles update only
-after exact applied native readback. The new public Go route has focused worker
-and encrypted-gateway tests; installing its new candidate is a separate gate.
-The Mod's engine configuration choices are aliases, while
-Desktop builds its Code menu from a separate bootstrap model catalog. Passing raw
-configuration aliases to the request returned provider errors. The inspected public
-Mod API exposes neither that catalog nor a read-only alias resolver. Original Mod
-sessions advertise no model directory or model mutation; Desktop model selection
-remains unavailable through Filo. Claude Code's separate owned executor reads its
-own runtime's task-free initialize catalog, preserving native choice IDs, display
-names and effort metadata. It does not use Mod aliases or supply Desktop's catalog.
-Claude Code's separate owned executor does not support active steering, archive or service-tier settings,
-and its owned executor denies native approval requests. Attachment-enabled native
-sessions receive access to the private upload directory under default permissions.
-Existing brokers keep their original permissions and sessions during upgrades.
-Effort changes require native applied readback. Model selection acknowledges
-native control; the effective model remains unknown until the next native
-initialization. Claude execution IDs correlate Filo work and are not native turn
-IDs; native input acceptance is recorded separately from completion. See the
-[integration architecture](docs/agent-connection-architecture.md) for identity,
-bounds and per-source limits. This is not full Codex Desktop capability parity.
-CLI settings success requires fresh, same-task native applied evidence. Earlier
-stdio-owned qualification on Codex CLI 0.147.0 lacked a settings notification;
-that result remains unconfirmed and is not replayed. The separately qualified
-shared websocket path delivered matching settings updates to both subscribers.
-This does not qualify every runtime or settings combination. No independent
-read-only current-settings query is assumed.
-Live Mod observation starts at native registration. A source-bound lifecycle
-transcript path also provides bounded older text, thinking and tool pages with
-native message/tool identities. An existing Desktop registration that missed the
-lifecycle event can find its transcript through the exact persisted host/engine
-mapping and one unique engine-UUID file in the selected native projects store;
-this read-only discovery grants no control or runtime state. Tool results join qualified calls within the
-signed snapshot and bounded lookup; unmatched results remain unknown. Historical
-media and branch ancestry are not reconstructed, so this is not a complete
-transcript. WSL clients are outside this Windows integration. Mixed
-terminal/Desktop surface attachments are rejected for Claude source attribution.
+The Windows installer discovers four clients and lets you pick any of them under
+one Windows account. Their Filo components install automatically.
 
-Private configuration selects one to four `sources`: `codex-desktop`, `codex-cli`,
-`claude-code` and `claude-desktop`. Omitting the field preserves Desktop-only
-behavior. CLI-only or Claude-only workers do not connect the Desktop auxiliary host
-or allocate Desktop task executors. The selected Windows account remains
-`desktopSid` for compatibility. Optional `codexDaemonSocket` names an existing local
-socket; the default is the existing official control socket under the native home.
-Filo does not initialize or start that daemon and never falls back to the legacy
-wrapper registry in production. Source model and usage reads use a disposable
-native stdio app-server with no thread
-or turn operations. The selected account, native store and current scope are
-verified before results are returned.
-These reads do not mark the source online. Existing daemon metadata still requires
-peer and native store identity verification. Native history does not grant
-execution authority.
+| Client | What Agora can do |
+| --- | --- |
+| **Codex Desktop** | Full task workflow: browse and search history, follow live tasks, send, steer, stop, create, rename, archive, change model settings, read images and upload files. Needs no separate Codex CLI. |
+| **Codex CLI** | Control terminals you start normally: send, steer, exact-turn stop and model/effort changes on loaded threads. Read history by task ID. No new conversations. |
+| **Claude Code** | Mod sessions in the terminal: live text, current model and effort, send/insert, exact-turn stop. Previously Filo-created sessions also support model and effort selection, rename and attachments. No new conversations. |
+| **Claude Desktop** | **Code** only (no Chat or Cowork): live text, tools and titles, send, insert while running, exact-turn stop, effort changes and rename. No model selection. |
 
-An integration is published after its required components install successfully.
-Every installed integration remains listed in Agora while offline; only
-uninstalled integrations may be hidden. Native readiness is checked independently
-for each source. A running gateway or readable history cannot prove that the native
-client is online, and one Claude source's registration cannot make the other online.
-
-Selecting either Claude source installs the persistent observer helper at
-`~/.claude/skills/filo-observer` in the selected user's profile. The normal flow
-requires no manual copy, environment variable or plugin-loading command. Its local
-configuration points to a distinct private token file in the worker directory;
-the secret is not copied into the helper. The private bridge defaults to
-`127.0.0.1:7438`, separate from the worker on `7437` and the public listener. Filo
-does not edit Claude's native authentication, history or normal startup. Stopping
-the bridge leaves native sessions independent.
-
-Claude Mods require terminal Claude Code **v2.1.287+**, or Desktop's embedded
-Claude Code engine **v2.1.286+**. Desktop's app version and a separately installed
-CLI version do not establish its engine compatibility. Installed helper files do
-not prove native loading or a usable connection: the source remains listed offline
-while waiting for compatible, source-matching native registration. Ordinary isolated
-CLI sessions qualified persistent skills-directory autoload without `--plugin-dir`.
-The installed 2.1.310 integration qualified model/catalog/request-effort observation,
-exact-turn HTTP Stop, non-exact idle Send and running Insert with subsequent model
-consumption. Model and effort changes remained pending until real subsequent native
-requests confirmed their actual values. Desktop's embedded engine qualified native
-plugin validation, persistent source-matching registration, non-exact idle Send,
-running Insert with subsequent native consumption, exact-turn Stop, live
-text/tool/state/title projection, subsequent-request effort confirmation and
-accepted-turn survival through gateway/private-worker outages. Model selection
-remains unqualified. The successful Insert check followed an owner-performed
-Desktop restart and live registration; updating installed helper files alone does
-not establish that an existing native session has reloaded them.
-Filo-created Claude Code sessions use
-an independent stream-json connection and do not require Mod registration. See the
-[installer guide](docs/windows-installer.md) for ownership and qualification limits.
-
-The following capabilities apply to **Codex Desktop**:
+### Codex Desktop
 
 | Capability | Behavior |
 | --- | --- |
 | Tasks and history | Search the native catalog; read the latest bounded page, then load older messages on demand. |
 | Live tasks | Follow the original owner through verified Desktop IPC; send, steer and stop using native turn identity. |
-| New tasks | Create on the first explicit Send, using the unmodified runtime supplied by Desktop when IPC cannot provide creation. Immediate Desktop sidebar visibility remains unqualified. |
-| Task management | Rename and archive through native APIs using an account-bound catalog grant; execution ownership is not required. Archive preserves the original records. |
-| Model settings | Read supported models, thinking levels and service tiers; apply supported settings to subsequent turns. |
+| New tasks | Create on the first explicit Send, using the unmodified runtime supplied by Desktop when IPC cannot provide creation. Immediate Desktop sidebar visibility is not guaranteed. |
+| Task management | Rename and archive through native APIs. Archive preserves the original records. |
+| Model settings | Read supported models, thinking levels and service tiers; apply them to subsequent turns. |
 | Images and files | Read authorized inline/tool images and upload photos or files to the target computer as unchanged bytes. |
-| Usage | Expose native usage information when the connected account provides it. |
+| Usage | Show native usage information when the connected account provides it. |
 
 The adapter checks application identity, account ownership and actual protocol
-capabilities. It does not pin a Codex version or silently take over another writer.
-Unavailable native operations return explicit errors. Approvals remain in Codex.
-The integration depends on native interfaces that can change, so compatibility and
-installed-service checks are part of every delivery.
+capabilities. It does not pin a Codex version or take over another writer.
+Unavailable operations return explicit errors, and approvals stay in Codex. This
+is not full Codex Desktop parity.
 
-## Native Codex terminal connection
+### Codex CLI
 
-Start Codex normally. Same-owner remote control requires the official shared daemon
-to be running already under the selected Windows account and native home. Filo
-verifies its local peer and native handshake, lists at most 30 loaded main threads,
-and follows only those exact IDs. It never resumes a thread to observe it. Inactive
-history is omitted from this catalog; exact-ID history reads remain separate.
+Start Codex normally. Filo connects to the account's official shared daemon,
+which must already be running under the selected Windows account. Filo never
+starts or installs it; if the socket is missing, the source stays offline.
 
-Filo does not initialize or install the native daemon package. Missing sockets
-leave the integration offline without starting another owner or replaying input.
-An isolated ordinary Windows TUI on Codex 0.164.0 qualified exact Send receipts,
-running steering, exact-turn Stop with idle readback, native model/effort applied
-updates and the encrypted public route. Its terminal subscriber displayed the
-remotely executed response. This does not qualify every version or service tier.
+Filo verifies the local peer and native handshake, lists at most 30 loaded main
+threads and follows only those IDs. It never resumes a thread just to observe it.
+Inactive history is read separately by exact task ID. Settings changes count as
+applied only after fresh native confirmation for the same task. Qualified on
+Codex 0.164.0; other versions and service tiers are not guaranteed.
 
-The public `filo codex` launcher has been removed. Production construction neither
-creates nor falls back to the legacy registry. The hidden legacy owner entry and
-its lifecycle support remain for previously accepted native work; removing a
-launcher does not terminate those owners. Closing a daemon observer closes only
-its connection.
+Older Filo-owned CLI tasks keep bounded history, idle send, steering, stop,
+model/effort/tier settings, rename, archive and attachments. The `filo codex`
+launcher has been removed; previously accepted owners keep running.
+
+### Claude Code and Claude Desktop
+
+Selecting either Claude client installs an observer Mod at
+`~/.claude/skills/filo-observer` in the selected user's profile. No manual copy,
+environment variable or plugin flag is needed. It talks to a private bridge on
+`127.0.0.1:7438` using its own token file; Filo does not change Claude's
+authentication, history or startup.
+
+Requirements: terminal Claude Code **v2.1.287+**, or Desktop's embedded Claude
+Code engine **v2.1.286+**. The Desktop app version and a separate CLI install do
+not tell you the engine version. A source stays offline until a compatible native
+session actually registers. After updating the Mod, restart running sessions so
+they load it.
+
+Behavior and limits:
+
+- Send and insert are confirmed as submitted/observed, not exact. An unconfirmed
+  input blocks resend and is never replayed.
+- Effort changes stay pending until the next native request confirms them.
+- Mod sessions cannot change models: the Mod only sees configuration aliases, and
+  Desktop's model menu comes from a catalog the Mod cannot read.
+- Older history comes from the session transcript (text, thinking and tool pages).
+  Media and branch ancestry are not reconstructed, so it is not a complete
+  transcript.
+- Filo-created Claude Code sessions use a separate stream-json connection with
+  their own model catalog. They do not support steering, archive or service tiers,
+  and they deny native approval requests.
+- Accepted turns keep running if the Filo gateway or worker goes down.
+- WSL clients are not supported.
+
+### Configuration and status
+
+Private configuration selects one to four `sources`: `codex-desktop`, `codex-cli`,
+`claude-code` and `claude-desktop`. Omitting it means Desktop only. CLI-only or
+Claude-only setups do not start the Desktop auxiliary host. The selected account
+is still stored as `desktopSid` for compatibility. Optional `codexDaemonSocket`
+points at an existing daemon socket; the default is the official one under the
+native home.
+
+Every installed client stays listed in Agora while offline. Readiness is checked
+per client: a running gateway or readable history does not mean the native client
+is online. See the [integration architecture](docs/agent-connection-architecture.md)
+and [installer guide](docs/windows-installer.md) for identity, bounds and
+qualification details.
 
 ## How it works
 
