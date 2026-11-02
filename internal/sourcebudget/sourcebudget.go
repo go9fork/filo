@@ -43,7 +43,6 @@ var excludedDirectories = map[string]struct{}{
 	"dist":         {},
 	"node_modules": {},
 	"vendor":       {},
-	"thirdparty":   {},
 }
 
 // File is one measured maintained source file.

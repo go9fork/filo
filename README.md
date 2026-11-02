@@ -189,8 +189,8 @@ clients remain outside the supported scope.
 ## Encrypted transport
 
 Filo reuses [Conch](https://github.com/newo-ether/conch)'s Go encryption and HTTP
-transport code. The exact upstream revision, file hashes and license are retained
-in `thirdparty/conch`; there is no separate Filo cryptographic implementation.
+transport code as a regular Go module dependency, pinned in `go.mod` and verified
+by `go.sum`. There is no separate Filo cryptographic implementation.
 
 Public requests, responses, errors, event streams, images and raw uploads use the
 authenticated encrypted channel. The shared implementation binds requests to their
@@ -220,7 +220,6 @@ Read the [Codex connection contract](docs/codex-connection-contract.md) and
 | `internal/service`, `internal/protocol` | Bounded HTTP/SSE, images, uploads and external records |
 | `internal/sourcebudget` | Maintained-source line budget |
 | `scripts/windows`, `scripts/tests` | Installation, rollback, discovery and Windows lifecycle fixtures |
-| `thirdparty/conch` | Unmodified shared encrypted transport and provenance |
 
 Every maintained source file must stay below the 800-line gate. Changes must pass
 Go tests, Windows lifecycle checks and relevant native behavior comparisons before
@@ -255,13 +254,13 @@ preserve copyright and license notices, identify modifications, and provide the
 complete corresponding source under GPLv3. The project license does not imply
 upstream endorsement of a modified distribution.
 
-The pinned Conch snapshot in `thirdparty/conch` retains its original MIT license
-and recorded upstream provenance. It is not relicensed by this declaration.
+The Conch dependency is licensed separately under GPLv3 by the same author.
 Earlier Filo snapshots did not contain a project-wide license; this declaration
 licenses the current source and does not describe those snapshots as MIT-licensed.
 
 Release ZIPs contain this license and third-party notices. Obtain corresponding
 source from the source archive of the same release tag, or check out the exact
 revision recorded in the ZIP's `manifest.json`. Build instructions and scripts are
-included in that source. Independently installed Codex Desktop remains a separate
+included in that source; Go modules, including Conch, are fetched at the versions
+pinned in `go.mod`. Independently installed Codex Desktop remains a separate
 product and is not relicensed by Filo.

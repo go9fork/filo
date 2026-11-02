@@ -100,7 +100,7 @@ function Copy-Payload([string]$Source,[string]$Relative) {
     New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force | Out-Null
     Copy-Item -LiteralPath $Source -Destination $destination
 }
-foreach ($relative in @('README.md','LICENSE','THIRD_PARTY_NOTICES.txt','thirdparty\conch\LICENSE','docs\windows-installer.md','docs\windows-auxiliary.md',
+foreach ($relative in @('README.md','LICENSE','THIRD_PARTY_NOTICES.txt','docs\windows-installer.md','docs\windows-auxiliary.md',
     'docs\codex-connection-contract.md','docs\original-desktop-attachment.md','docs\errors.md',
     'scripts\install.ps1','scripts\system-service.ps1',
     'scripts\resolve-desktop-runtime.ps1','scripts\windows\Desktop-Runtime.ps1',

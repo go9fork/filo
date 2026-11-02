@@ -8,10 +8,10 @@ tailnet IPv4 binding. Wildcard listening keeps the same authenticated encryption
 requirements; a plaintext bearer request is still rejected. Private workers and
 the Claude bridge remain authenticated loopback-only endpoints.
 
-thirdparty/conch contains unmodified runtime files from the upstream Conch revision
-recorded in UPSTREAM.json, with its license and per-file SHA-256 provenance. Do not
-fork the crypto or wire protocol here; apply changes upstream, verify them there,
-then refresh these exact files and the manifest. Upstream tests are retained in Conch.
+The crypto and encrypted HTTP packages come from the `github.com/newo-ether/conch`
+Go module, pinned in go.mod and verified by go.sum. Do not fork the crypto or wire
+protocol here; apply changes upstream, verify and tag them there, then bump the
+module version. Upstream tests are retained in Conch.
 
 The shared authentication middleware bounds each request body, aggregate active
 readers, and the read deadline before authentication. The final HTTP listener must
